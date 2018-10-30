@@ -88,7 +88,6 @@
 <body class="pytorch-body">
 
    
-  <div>
 
     
 
@@ -187,11 +186,9 @@
     </nav>
 
     <div class="pytorch-container">
-
-      <section data-toggle="wy-nav-shift" class="pytorch-content-wrap">
-        <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
-          <div class="pytorch-breadcrumbs-wrapper">
-            
+      <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+        <div class="pytorch-breadcrumbs-wrapper">
+          
 
 
 
@@ -235,19 +232,20 @@
 
   
 </div>
-          </div>
-
-          <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
-            Shortcuts
-          </div>
         </div>
 
+        <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
         <div class="pytorch-content-left">
           
           <div class="rst-content">
           
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
-             <article itemprop="articleBody" class="pytorch-article">
+             <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <div class="section" id="paragraph-level-markup">
 <h1><a class="toc-backref" href="#id33">3. Paragraph Level Markup</a><a class="headerlink" href="#paragraph-level-markup" title="Permalink to this headline">¶</a></h1>
@@ -951,7 +949,7 @@ with the “compound” directive.</p>
         </div>
       </section>
     </div>
-  </div>
+
   
 
 
@@ -1156,20 +1154,19 @@ with the “compound” directive.</p>
   <script type="text/javascript" src="../../../../_static/js/vendor/anchor.min.js"></script>
 
   <script type="text/javascript">
-    mobileMenu.bind();
-    mobileTOC.bind();
-    pytorchAnchors.bind();
-
-    $(window).on("load", function() {
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
       sideMenus.bind();
       scrollToAnchor.bind();
       highlightNavigation.bind();
-    })
 
-    // Add class to links that have code blocks, since we cannot create links in code blocks
-    $("article.pytorch-article a span.pre").each(function(e) {
-      $(this).closest("a").addClass("has-code");
-    });
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
   </script>
 </body>
 </html>

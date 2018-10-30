@@ -608,8 +608,9 @@ faster too.</p>
 <span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
 <div class="section" id="refactor-using-optim">
-<h3>Refactor using optim<a class="headerlink" href="#refactor-using-optim" title="Permalink to this headline">¶</a></h3>
+<h2>Refactor using optim<a class="headerlink" href="#refactor-using-optim" title="Permalink to this headline">¶</a></h2>
 <p>Pytorch also has a package with various optimization algorithms, <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>.
 We can use the <code class="docutils literal notranslate"><span class="pre">step</span></code> method from our optimizer to take a forward step, instead
 of manually updating each parameter.</p>
@@ -653,7 +654,6 @@ can reuse it in the future.</p>
 
 <span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
 </pre></div>
-</div>
 </div>
 </div>
 <div class="section" id="refactor-using-dataset">
@@ -1088,10 +1088,8 @@ including classes provided with Pytorch such as <code class="docutils literal no
 <li><a class="reference internal" href="#neural-net-from-scratch-no-torch-nn">Neural net from scratch (no torch.nn)</a></li>
 <li><a class="reference internal" href="#using-torch-nn-functional">Using torch.nn.functional</a></li>
 <li><a class="reference internal" href="#refactor-using-nn-module">Refactor using nn.Module</a></li>
-<li><a class="reference internal" href="#refactor-using-nn-linear">Refactor using nn.Linear</a><ul>
+<li><a class="reference internal" href="#refactor-using-nn-linear">Refactor using nn.Linear</a></li>
 <li><a class="reference internal" href="#refactor-using-optim">Refactor using optim</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#refactor-using-dataset">Refactor using Dataset</a></li>
 <li><a class="reference internal" href="#refactor-using-dataloader">Refactor using DataLoader</a></li>
 <li><a class="reference internal" href="#add-validation">Add validation</a></li>
