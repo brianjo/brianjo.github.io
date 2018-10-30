@@ -252,14 +252,15 @@
 <div class="sphx-glr-example-title section" id="what-is-torch-nn-really">
 <span id="sphx-glr-beginner-nn-basics-py"></span><h1>What is <cite>torch.nn</cite> <em>really</em>?<a class="headerlink" href="#what-is-torch-nn-really" title="Permalink to this headline">¶</a></h1>
 <p>by Jeremy Howard, <a class="reference external" href="http://fast.ai">fast.ai</a>. Thanks to Rachel Thomas and Francisco Ingham.</p>
-<p>PyTorch provides the elegantly designed modules and classes <code class="docutils literal notranslate"><span class="pre">torch.nn</span></code>,
-<code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>, <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, and <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> to help you create and
+<p>PyTorch provides the elegantly designed modules and classes <a class="reference external" href="https://pytorch.org/docs/stable/nn.html">torch.nn</a> ,
+<a class="reference external" href="https://pytorch.org/docs/stable/optim.html">torch.optim</a> , <a class="reference external" href="https://pytorch.org/docs/stable/data.html?highlight=dataset#torch.utils.data.Dataset">Dataset</a> ,
+and <a class="reference external" href="https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader">DataLoader</a> to help you create and
 train neural networks. In order to fully utilize their power and customize
 them for your problem, you need to really understand exactly what they’re
 doing. To develop this understanding, we will first train basic neural net
 on the MNIST data set without using any features from these models; we will
 initially only use the most basic PyTorch tensor functionality. Then, we will
-incrementally add one feature from <cite>torch.nn</cite>, <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>, <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, or
+incrementally add one feature from <code class="docutils literal notranslate"><span class="pre">torch.nn</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>, <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, or
 <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> at a time, showing exactly what each piece does, and how it
 works to make the code either more concise, or more flexible.</p>
 <p><strong>This tutorial assumes you already have PyTorch installed, and are familiar
@@ -890,7 +891,7 @@ and generally leads to faster training.</p>
 <h2>nn.Sequential<a class="headerlink" href="#nn-sequential" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">torch.nn</span></code> has another handy class we can use to simply our code:
 <a class="reference external" href="https://pytorch.org/docs/stable/nn.html#torch.nn.Sequential">Sequential</a> .
-A <cite>Sequential</cite> object runs each of the modules contained within it, in a
+A <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> object runs each of the modules contained within it, in a
 sequential manner. This is a simpler way of writing our neural network.</p>
 <p>To take advantage of this, we need to be able to easily define a
 <strong>custom layer</strong> from a given function.  For instance, PyTorch doesn’t
