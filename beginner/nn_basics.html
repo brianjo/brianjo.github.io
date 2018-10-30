@@ -86,7 +86,6 @@
 <body class="pytorch-body">
 
    
-  <div>
 
     
 
@@ -185,11 +184,9 @@
     </nav>
 
     <div class="pytorch-container">
-
-      <section data-toggle="wy-nav-shift" class="pytorch-content-wrap">
-        <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
-          <div class="pytorch-breadcrumbs-wrapper">
-            
+      <div class="pytorch-page-level-bar" id="pytorch-page-level-bar">
+        <div class="pytorch-breadcrumbs-wrapper">
+          
 
 
 
@@ -233,19 +230,20 @@
 
   
 </div>
-          </div>
-
-          <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
-            Shortcuts
-          </div>
         </div>
 
+        <div class="pytorch-shortcuts-wrapper" id="pytorch-shortcuts-wrapper">
+          Shortcuts
+        </div>
+      </div>
+
+      <section data-toggle="wy-nav-shift" id="pytorch-content-wrap" class="pytorch-content-wrap">
         <div class="pytorch-content-left">
           
           <div class="rst-content">
           
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
-             <article itemprop="articleBody" class="pytorch-article">
+             <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <div class="sphx-glr-download-link-note admonition note">
 <p class="first admonition-title">Note</p>
@@ -253,8 +251,8 @@
 </div>
 <div class="sphx-glr-example-title section" id="what-is-torch-nn-really">
 <span id="sphx-glr-beginner-nn-basics-py"></span><h1>What is <cite>torch.nn</cite> <em>really</em>?<a class="headerlink" href="#what-is-torch-nn-really" title="Permalink to this headline">¶</a></h1>
-<p>by Jeremy Howard, fast.ai. Thanks to Rachel Thomas and Francisco Ingham.</p>
-<p>PyTorch provides the elegantly designed modules and classes <cite>torch.nn</cite>,
+<p>by Jeremy Howard, <a class="reference external" href="http://fast.ai">fast.ai</a>. Thanks to Rachel Thomas and Francisco Ingham.</p>
+<p>PyTorch provides the elegantly designed modules and classes <code class="docutils literal notranslate"><span class="pre">torch.nn</span></code>,
 <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>, <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, and <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> to help you create and
 train neural networks. In order to fully utilize their power and customize
 them for your problem, you need to really understand exactly what they’re
@@ -306,7 +304,7 @@ a python-specific format for serializing data.</p>
 <p>Each image is 28 x 28, and is being stored as a flattened row of length
 784 (=28x28). Let’s take a look at one; we need to reshape it to 2d
 first.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># get_ipython().run_line_magic(&quot;matplotlib&quot;, &quot;inline&quot;)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span> <span class="s2">&quot;inline&quot;</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -315,7 +313,7 @@ first.</p>
 <span class="n">x_train</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
-<p>PyTorch uses <cite>torch.tensor</cite>, rather than numpy arrays, so we need to
+<p>PyTorch uses <code class="docutils literal notranslate"><span class="pre">torch.tensor</span></code>, rather than numpy arrays, so we need to
 convert our data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 
@@ -328,21 +326,24 @@ convert our data.</p>
 </div>
 </div>
 <div class="section" id="neural-net-from-scratch-no-torch-nn">
-<h2>Neural net from scratch (no <cite>torch.nn</cite>)<a class="headerlink" href="#neural-net-from-scratch-no-torch-nn" title="Permalink to this headline">¶</a></h2>
+<h2>Neural net from scratch (no torch.nn)<a class="headerlink" href="#neural-net-from-scratch-no-torch-nn" title="Permalink to this headline">¶</a></h2>
 <p>Let’s first create a model using nothing but PyTorch tensor operations. We’re assuming
 you’re already familiar with the basics of neural networks. (If you’re not, you can
-learn them at <a class="reference external" href="http://course.fast.ai">course.fast.ai</a>.</p>
+learn them at <a class="reference external" href="http://course.fast.ai">course.fast.ai</a>).</p>
 <p>PyTorch provides methods to create random or zero-filled tensors, which we will
 use to create our weights and bias for a simple linear model. These are just regular
 tensors, with one very special addition: we tell PyTorch that they require a
 gradient. This causes PyTorch to record all of the operations done on the tensor,
 so that it can calculate the gradient during back-propagation <em>automatically</em>!</p>
-<p>For the weights, we set <cite>requires_grad</cite> <strong>after</strong> the initialization, since we
-don’t want that step included in the gradient. (Note that a trailling <cite>_</cite> in
+<p>For the weights, we set <code class="docutils literal notranslate"><span class="pre">requires_grad</span></code> <strong>after</strong> the initialization, since we
+don’t want that step included in the gradient. (Note that a trailling <code class="docutils literal notranslate"><span class="pre">_</span></code> in
 PyTorch signifies that the operation is performed in-place.)</p>
-<p><em>NB: We are initializing the weights here with
-`Xavier initialisation &lt;http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf&gt;`_
-(by multiplying with 1/sqrt(n)).</em></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We are initializing the weights here with
+<a class="reference external" href="http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf">Xavier initialisation</a>
+(by multiplying with 1/sqrt(n)).</p>
+</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
 
 <span class="n">weights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">784</span><span class="p">)</span>
@@ -362,12 +363,11 @@ automatically.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>def log_softmax(x):
     return x - x.exp().sum(-1).log().unsqueeze(-1)
 
-
 def model(xb):
     return log_softmax(xb @ weights + bias)
 </pre></div>
 </div>
-<p>In the above, the ‘&#64;’ stands for the dot product operation. We will call
+<p>In the above, the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> stands for the dot product operation. We will call
 our function on one batch of data (in this case, 64 images).  This is
 one <em>forward pass</em>.  Note that our predictions won’t be any better than
 random at this stage, since we start with random weights.</p>
@@ -378,13 +378,12 @@ random at this stage, since we start with random weights.</p>
 <span class="n">preds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">preds</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
-<p>As you see, the <cite>preds</cite> tensor contains not only the tensor values, but also a
+<p>As you see, the <code class="docutils literal notranslate"><span class="pre">preds</span></code> tensor contains not only the tensor values, but also a
 gradient function. We’ll use this later to do backprop.</p>
 <p>Let’s implement negative log-likelihood to use as the loss function
 (again, we can just use standard Python):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">nll</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="k">return</span> <span class="o">-</span><span class="nb">input</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-
 
 <span class="n">loss_func</span> <span class="o">=</span> <span class="n">nll</span>
 </pre></div>
@@ -410,33 +409,32 @@ accuracy improves as our loss improves.</p>
 </div>
 <p>We can now run a training loop.  For each iteration, we will:</p>
 <ul class="simple">
-<li>select a mini-batch of data (of size <cite>bs</cite>)</li>
+<li>select a mini-batch of data (of size <code class="docutils literal notranslate"><span class="pre">bs</span></code>)</li>
 <li>use the model to make predictions</li>
 <li>calculate the loss</li>
-<li><cite>loss.backward()</cite> updates the gradients of the model, in this case, <cite>weights</cite>
-and <cite>bias</cite>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code> updates the gradients of the model, in this case, <code class="docutils literal notranslate"><span class="pre">weights</span></code>
+and <code class="docutils literal notranslate"><span class="pre">bias</span></code>.</li>
 </ul>
 <p>We now use these gradients to update the weights and bias.  We do this
-within the <cite>torch.no_grad()</cite> context manager, because we do not want these
+within the <code class="docutils literal notranslate"><span class="pre">torch.no_grad()</span></code> context manager, because we do not want these
 actions to be recorded for our next calculation of the gradient.  You can read
 more about how PyTorch’s Autograd records operations
 <a class="reference external" href="https://pytorch.org/docs/stable/notes/autograd.html">here</a>.</p>
 <p>We then set the
 gradients to zero, so that we are ready for the next loop.
 Otherwise, our gradients would record a running tally of all the operations
-that had happened (i.e. <cite>loss.backward()</cite> <em>adds</em> the gradients to whatever is
+that had happened (i.e. <code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code> <em>adds</em> the gradients to whatever is
 already stored, rather than replacing them).</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">You can use the standard python debugger to step through PyTorch
 code, allowing you to check the various variable values at each step.
-Uncomment <cite>set_trace()</cite> below to try it out.</p>
+Uncomment <code class="docutils literal notranslate"><span class="pre">set_trace()</span></code> below to try it out.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.core.debugger</span> <span class="kn">import</span> <span class="n">set_trace</span>
 
 <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># learning rate</span>
 <span class="n">epochs</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># how many epochs to train for</span>
-
 
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">bs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
@@ -466,51 +464,53 @@ have increased, and they have.</p>
 </div>
 </div>
 <div class="section" id="using-torch-nn-functional">
-<h2>Using <cite>torch.nn.functional</cite><a class="headerlink" href="#using-torch-nn-functional" title="Permalink to this headline">¶</a></h2>
+<h2>Using torch.nn.functional<a class="headerlink" href="#using-torch-nn-functional" title="Permalink to this headline">¶</a></h2>
 <p>We will now refactor our code, so that it does the same thing as before, only
-we’ll start taking advantage of PyTorch’s <cite>nn</cite> classes to make it more concise
+we’ll start taking advantage of PyTorch’s <code class="docutils literal notranslate"><span class="pre">nn</span></code> classes to make it more concise
 and flexible. At each step from here, we should be making our code one or more
 of: shorter, more understandable, and/or more flexible.</p>
 <p>The first and easiest step is to make our code shorter by replacing our
-hand-written activation and loss functions with those from <cite>torch.nn.functional</cite>
-(which is generally imported into the namespace <cite>F</cite> by convention). This module
-contains all the functions in the <cite>torch.nn</cite> library (whereas other parts of the
+hand-written activation and loss functions with those from <code class="docutils literal notranslate"><span class="pre">torch.nn.functional</span></code>
+(which is generally imported into the namespace <code class="docutils literal notranslate"><span class="pre">F</span></code> by convention). This module
+contains all the functions in the <code class="docutils literal notranslate"><span class="pre">torch.nn</span></code> library (whereas other parts of the
 library contain classes). As well as a wide range of loss and activation
 functions, you’ll also find here some convenient functions for creating neural
 nets, such as pooling functions. (There are also functions for doing convolutions,
 linear layers, etc, but as we’ll see, these are usually better handled using
 other parts of the library.)</p>
 <p>If you’re using negative log likelihood loss and log softmax activation,
-then Pytorch provides a single function <cite>F.cross_entropy</cite> that combines
+then Pytorch provides a single function <code class="docutils literal notranslate"><span class="pre">F.cross_entropy</span></code> that combines
 the two. So we can even remove the activation function from our model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>import torch.nn.functional as F
 
 loss_func = F.cross_entropy
 
-
 def model(xb):
     return xb @ weights + bias
 </pre></div>
 </div>
-<p>Note that we no longer call <cite>log_softmax</cite> in the <cite>model</cite> function. Let’s
+<p>Note that we no longer call <code class="docutils literal notranslate"><span class="pre">log_softmax</span></code> in the <code class="docutils literal notranslate"><span class="pre">model</span></code> function. Let’s
 confirm that our loss and accuracy are the same as before:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">),</span> <span class="n">accuracy</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
 <div class="section" id="refactor-using-nn-module">
-<h3>Refactor using nn.Module<a class="headerlink" href="#refactor-using-nn-module" title="Permalink to this headline">¶</a></h3>
-<p>Next up, we’ll use <cite>nn.Module</cite> and <cite>nn.Parameter</cite>, for a clearer and more
-concise training loop. We subclass <cite>nn.Module</cite> (which itself is a class and
+<h2>Refactor using nn.Module<a class="headerlink" href="#refactor-using-nn-module" title="Permalink to this headline">¶</a></h2>
+<p>Next up, we’ll use <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> and <code class="docutils literal notranslate"><span class="pre">nn.Parameter</span></code>, for a clearer and more
+concise training loop. We subclass <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> (which itself is a class and
 able to keep track of state).  In this case, we want to create a class that
-holds our weights, bias, and method for the forward step.  <cite>nn.Module</cite> has a
-number of attributes and methods (such as <cite>.parameters()</cite> and <cite>.zero_grad()</cite>)
+holds our weights, bias, and method for the forward step.  <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> has a
+number of attributes and methods (such as <code class="docutils literal notranslate"><span class="pre">.parameters()</span></code> and <code class="docutils literal notranslate"><span class="pre">.zero_grad()</span></code>)
 which we will be using.</p>
-<p><strong>NB</strong>: <cite>nn.Module</cite> (uppercase M) is a PyTorch specific concept, and is a
-class we’ll be using a lot. <cite>nn.Module</cite> is not to be confused with the Python
-concept of a (lowercase m) <a class="reference external" href="https://docs.python.org/3/tutorial/modules.html">module</a>,
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> (uppercase M) is a PyTorch specific concept, and is a
+class we’ll be using a lot. <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> is not to be confused with the Python
+concept of a (lowercase <code class="docutils literal notranslate"><span class="pre">m</span></code>) <a class="reference external" href="https://docs.python.org/3/tutorial/modules.html">module</a>,
 which is a file of Python code that can be imported.</p>
+</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>from torch import nn
-
 
 class Mnist_Logistic(nn.Module):
     def __init__(self):
@@ -528,8 +528,8 @@ first have to instantiate our model:</p>
 </pre></div>
 </div>
 <p>Now we can calculate the loss in the same way as before. Note that
-<cite>nn.Module</cite> objects are used as if they are functions (i.e they are
-<em>callable</em>), but behind the scenes Pytorch will call our <cite>forward</cite>
+<code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> objects are used as if they are functions (i.e they are
+<em>callable</em>), but behind the scenes Pytorch will call our <code class="docutils literal notranslate"><span class="pre">forward</span></code>
 method automatically.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
 </pre></div>
@@ -544,7 +544,7 @@ by name, and manually zero out the grads for each parameter separately, like thi
 </pre></div>
 </div>
 <p>Now we can take advantage of model.parameters() and model.zero_grad() (which
-are both defined by PyTorch for <cite>nn.Module</cite>) to make those steps more concise
+are both defined by PyTorch for <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>) to make those steps more concise
 and less prone to the error of forgetting some of our parameters, particularly
 if we had a more complicated model:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
@@ -552,7 +552,7 @@ if we had a more complicated model:</p>
     <span class="n">model</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>We’ll wrap our little training loop in a <cite>fit</cite> function so we can run it
+<p>We’ll wrap our little training loop in a <code class="docutils literal notranslate"><span class="pre">fit</span></code> function so we can run it
 again later.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fit</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
@@ -570,7 +570,6 @@ again later.</p>
                     <span class="n">p</span> <span class="o">-=</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">lr</span>
                 <span class="n">model</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 
-
 <span class="n">fit</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -580,10 +579,10 @@ again later.</p>
 </div>
 </div>
 <div class="section" id="refactor-using-nn-linear">
-<h3>Refactor using nn.Linear<a class="headerlink" href="#refactor-using-nn-linear" title="Permalink to this headline">¶</a></h3>
+<h2>Refactor using nn.Linear<a class="headerlink" href="#refactor-using-nn-linear" title="Permalink to this headline">¶</a></h2>
 <p>We continue to refactor our code.  Instead of manually defining and
-initializing <cite>self.weights</cite> and <cite>self.bias</cite>, and calculating <cite>xb  &#64;
-self.weights + self.bias</cite>, we will instead use the Pytorch class
+initializing <code class="docutils literal notranslate"><span class="pre">self.weights</span></code> and <code class="docutils literal notranslate"><span class="pre">self.bias</span></code>, and calculating <code class="docutils literal notranslate"><span class="pre">xb</span>&#160; <span class="pre">&#64;</span>
+<span class="pre">self.weights</span> <span class="pre">+</span> <span class="pre">self.bias</span></code>, we will instead use the Pytorch class
 <a class="reference external" href="https://pytorch.org/docs/stable/nn.html#linear-layers">nn.Linear</a> for a
 linear layer, which does all that for us. Pytorch has many types of
 predefined layers that can greatly simplify our code, and often makes it
@@ -602,18 +601,16 @@ faster too.</p>
 <span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>We are still able to use our same <cite>fit</cite> method as before.</p>
+<p>We are still able to use our same <code class="docutils literal notranslate"><span class="pre">fit</span></code> method as before.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span><span class="p">()</span>
-
 
 <span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
 <div class="section" id="refactor-using-optim">
 <h3>Refactor using optim<a class="headerlink" href="#refactor-using-optim" title="Permalink to this headline">¶</a></h3>
-<p>Pytorch also has a package with various optimization algorithms, <cite>torch.optim</cite>.
-We can use the <cite>step</cite> method from our optimizer to take a forward step, instead
+<p>Pytorch also has a package with various optimization algorithms, <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>.
+We can use the <code class="docutils literal notranslate"><span class="pre">step</span></code> method from our optimizer to take a forward step, instead
 of manually updating each parameter.</p>
 <p>This will let us replace our previous manually coded optimization step:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
@@ -626,7 +623,7 @@ of manually updating each parameter.</p>
 <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<cite>optim.zero_grad()</cite> resets the gradient to 0 and we need to call it before
+<p>(<code class="docutils literal notranslate"><span class="pre">optim.zero_grad()</span></code> resets the gradient to 0 and we need to call it before
 computing the gradient for the next minibatch.)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">optim</span>
 </pre></div>
@@ -637,10 +634,8 @@ can reuse it in the future.</p>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Mnist_Logistic</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">)</span>
 
-
 <span class="n">model</span><span class="p">,</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span>
 <span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
-
 
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">bs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
@@ -655,21 +650,20 @@ can reuse it in the future.</p>
         <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
         <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 
-
 <span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</div>
 <div class="section" id="refactor-using-dataset">
-<h3>Refactor using Dataset<a class="headerlink" href="#refactor-using-dataset" title="Permalink to this headline">¶</a></h3>
+<h2>Refactor using Dataset<a class="headerlink" href="#refactor-using-dataset" title="Permalink to this headline">¶</a></h2>
 <p>PyTorch has an abstract Dataset class.  A Dataset can be anything that has
-a <cite>__len__</cite> function (called by Python’s standard <cite>len</cite> function) and
-a <cite>__getitem__</cite> function as a way of indexing into it.
-<cite>This tutorial &lt;https://pytorch.org/tutorials/beginner/data_loading_tutorial.html&gt;</cite>
-walks through a nice example of creating a custom FacialLandmarkDataset class
-as a subclass of Dataset.</p>
-<p>PyTorch’s
-<a href="#id3"><span class="problematic" id="id4">`TensorDataset &lt;https://pytorch.org/docs/stable/_modules/torch/utils/data/dataset.html#TensorDataset.`_</span></a>
+a <code class="docutils literal notranslate"><span class="pre">__len__</span></code> function (called by Python’s standard <code class="docutils literal notranslate"><span class="pre">len</span></code> function) and
+a <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> function as a way of indexing into it.
+<a class="reference external" href="https://pytorch.org/tutorials/beginner/data_loading_tutorial.html">This tutorial</a>
+walks through a nice example of creating a custom <code class="docutils literal notranslate"><span class="pre">FacialLandmarkDataset</span></code> class
+as a subclass of <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>.</p>
+<p>PyTorch’s <a class="reference external" href="https://pytorch.org/docs/stable/_modules/torch/utils/data/dataset.html#TensorDataset">TensorDataset</a>
 is a Dataset wrapping tensors. By defining a length and way of indexing,
 this also gives us a way to iterate, index, and slice along the first
 dimension of a tensor. This will make it easier to access both the
@@ -677,7 +671,7 @@ independent and dependent variables in the same line as we train.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">TensorDataset</span>
 </pre></div>
 </div>
-<p>Both <cite>x_train</cite> and <cite>y_train</cite> can be combined in a single TensorDataset,
+<p>Both <code class="docutils literal notranslate"><span class="pre">x_train</span></code> and <code class="docutils literal notranslate"><span class="pre">y_train</span></code> can be combined in a single <code class="docutils literal notranslate"><span class="pre">TensorDataset</span></code>,
 which will be easier to iterate over and slice.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_ds</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </pre></div>
@@ -708,11 +702,11 @@ which will be easier to iterate over and slice.</p>
 </div>
 </div>
 <div class="section" id="refactor-using-dataloader">
-<h3>Refactor using DataLoader<a class="headerlink" href="#refactor-using-dataloader" title="Permalink to this headline">¶</a></h3>
-<p>Pytorch’s <cite>DataLoader</cite> is responsible for managing batches. You can
-create a <cite>DataLoader</cite> from any <cite>Dataset</cite>. <cite>DataLoader</cite> makes it easier
-to iterate over batches. Rather than having to use <cite>train_ds[i*bs :
-i*bs+bs]</cite>, the DataLoader gives us each minibatch automatically.</p>
+<h2>Refactor using DataLoader<a class="headerlink" href="#refactor-using-dataloader" title="Permalink to this headline">¶</a></h2>
+<p>Pytorch’s <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> is responsible for managing batches. You can
+create a <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> from any <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>. <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> makes it easier
+to iterate over batches. Rather than having to use <code class="docutils literal notranslate"><span class="pre">train_ds[i*bs</span> <span class="pre">:</span> <span class="pre">i*bs+bs]</span></code>,
+the DataLoader gives us each minibatch automatically.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 
 <span class="n">train_ds</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -732,7 +726,6 @@ i*bs+bs]</cite>, the DataLoader gives us each minibatch automatically.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">,</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span>
 
-
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="n">train_dl</span><span class="p">:</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
@@ -742,19 +735,18 @@ i*bs+bs]</cite>, the DataLoader gives us each minibatch automatically.</p>
         <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
         <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
 
-
 <span class="n">loss_func</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Thanks to Pytorch’s <cite>nn.Module</cite>, <cite>nn.Parameter</cite>, <cite>Dataset</cite>, and <cite>DataLoader</cite>,
+<p>Thanks to Pytorch’s <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>, <code class="docutils literal notranslate"><span class="pre">nn.Parameter</span></code>, <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, and <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>,
 our training loop is now dramatically smaller and easier to understand. Let’s
 now try to add the basic features necessary to create effecive models in practice.</p>
 </div>
 <div class="section" id="add-validation">
-<h3>Add validation<a class="headerlink" href="#add-validation" title="Permalink to this headline">¶</a></h3>
+<h2>Add validation<a class="headerlink" href="#add-validation" title="Permalink to this headline">¶</a></h2>
 <p>In section 1, we were just trying to get a reasonable training loop set up for
 use on our training data.  In reality, you <strong>always</strong> should also have
-a [validation set](<a class="reference external" href="http://www.fast.ai/2017/11/13/validation-sets/">http://www.fast.ai/2017/11/13/validation-sets/</a>), in order
+a <a class="reference external" href="http://www.fast.ai/2017/11/13/validation-sets/">validation set</a>, in order
 to identify if you are overfitting.</p>
 <p>Shuffling the training data is
 <a class="reference external" href="https://www.quora.com/Does-the-order-of-training-data-matter-when-training-neural-networks">important</a>
@@ -774,9 +766,9 @@ size and compute the loss more quickly.</p>
 </pre></div>
 </div>
 <p>We will calculate and print the validation loss at the end of each epoch.</p>
-<p>(Note that we always call <cite>model.train()</cite> before training, and <cite>model.eval()</cite>
-before inference, because these are used by layers such as <cite>nn.BatchNorm2d</cite>
-and <cite>nn.Dropout</cite> to ensure appropriate behaviour for these different phases.)</p>
+<p>(Note that we always call <code class="docutils literal notranslate"><span class="pre">model.train()</span></code> before training, and <code class="docutils literal notranslate"><span class="pre">model.eval()</span></code>
+before inference, because these are used by layers such as <code class="docutils literal notranslate"><span class="pre">nn.BatchNorm2d</span></code>
+and <code class="docutils literal notranslate"><span class="pre">nn.Dropout</span></code> to ensure appropriate behaviour for these different phases.)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">,</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">()</span>
 
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
@@ -798,10 +790,10 @@ and <cite>nn.Dropout</cite> to ensure appropriate behaviour for these different 
 </div>
 </div>
 <div class="section" id="create-fit-and-get-data">
-<h3>Create fit() and get_data()<a class="headerlink" href="#create-fit-and-get-data" title="Permalink to this headline">¶</a></h3>
+<h2>Create fit() and get_data()<a class="headerlink" href="#create-fit-and-get-data" title="Permalink to this headline">¶</a></h2>
 <p>We’ll now do a little refactoring of our own. Since we go through a similar
 process twice of calculating the loss for both the training set and the
-validation set, let’s make that into its own function, “<cite>loss_batch</cite>”, which
+validation set, let’s make that into its own function, <code class="docutils literal notranslate"><span class="pre">loss_batch</span></code>, which
 computes the loss for one batch.</p>
 <p>We pass an optimizer in for the training set, and use it to perform
 backprop.  For the validation set, we don’t pass an optimizer, so the
@@ -817,10 +809,9 @@ method doesn’t perform backprop.</p>
     <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><cite>fit</cite> runs the necessary operations to train our model and compute the
+<p><code class="docutils literal notranslate"><span class="pre">fit</span></code> runs the necessary operations to train our model and compute the
 training and validation losses for each epoch.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-
 
 <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
@@ -838,7 +829,7 @@ training and validation losses for each epoch.</p>
         <span class="k">print</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><cite>get_data</cite> returns dataloaders for the training and validation sets.</p>
+<p><code class="docutils literal notranslate"><span class="pre">get_data</span></code> returns dataloaders for the training and validation sets.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span><span class="p">,</span> <span class="n">bs</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span>
         <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">bs</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
@@ -856,7 +847,6 @@ model can be run in 3 lines of code:</p>
 <p>You can use these basic 3 lines of code to train a wide variety of models.
 Let’s see if we can use them to train a convolutional neural network (CNN)!</p>
 </div>
-</div>
 <div class="section" id="switch-to-cnn">
 <h2>Switch to CNN<a class="headerlink" href="#switch-to-cnn" title="Permalink to this headline">¶</a></h2>
 <p>We are now going to build our neural network with three convolutional layers.
@@ -866,8 +856,8 @@ the model form, we’ll be able to use them to train a CNN without any modificat
 <a class="reference external" href="https://pytorch.org/docs/stable/nn.html#torch.nn.Conv2d">Conv2d</a> class
 as our convolutional layer. We define a CNN with 3 convolutional layers.
 Each convolution is followed by a ReLU.  At the end, we perform an
-average pooling.  (Note that <cite>view</cite> is PyTorch’s version of numpy’s
-<cite>reshape</cite>)</p>
+average pooling.  (Note that <code class="docutils literal notranslate"><span class="pre">view</span></code> is PyTorch’s version of numpy’s
+<code class="docutils literal notranslate"><span class="pre">reshape</span></code>)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Mnist_CNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -883,7 +873,6 @@ average pooling.  (Note that <cite>view</cite> is PyTorch’s version of numpy�
         <span class="n">xb</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">avg_pool2d</span><span class="p">(</span><span class="n">xb</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">xb</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">xb</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
-
 <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.1</span>
 </pre></div>
 </div>
@@ -893,21 +882,21 @@ and generally leads to faster training.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Mnist_CNN</span><span class="p">()</span>
 <span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 
-
 <span class="n">fit</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
 <div class="section" id="nn-sequential">
-<h3>nn.Sequential<a class="headerlink" href="#nn-sequential" title="Permalink to this headline">¶</a></h3>
-<p><cite>torch.nn</cite> has another handy class we can use to simply our code:
-<a href="#id1"><span class="problematic" id="id2">``</span></a>Sequential` &lt;<a class="reference external" href="https://pytorch.org/docs/stable/nn.html#torch.nn">https://pytorch.org/docs/stable/nn.html#torch.nn</a>.Sequential`_.
+<h2>nn.Sequential<a class="headerlink" href="#nn-sequential" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">torch.nn</span></code> has another handy class we can use to simply our code:
+<a class="reference external" href="https://pytorch.org/docs/stable/nn.html#torch.nn.Sequential">Sequential</a> .
 A <cite>Sequential</cite> object runs each of the modules contained within it, in a
 sequential manner. This is a simpler way of writing our neural network.</p>
 <p>To take advantage of this, we need to be able to easily define a
 <strong>custom layer</strong> from a given function.  For instance, PyTorch doesn’t
-have a <cite>view</cite> layer, and we need to create one for our network. <cite>Lambda</cite>
+have a <cite>view</cite> layer, and we need to create one for our network. <code class="docutils literal notranslate"><span class="pre">Lambda</span></code>
 will create a layer that we can then use when defining a network with
-<cite>Sequential</cite>.</p>
+<code class="docutils literal notranslate"><span class="pre">Sequential</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Lambda</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -916,12 +905,11 @@ will create a layer that we can then use when defining a network with
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-
 <span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The model created with <cite>Sequential</cite> is simply:</p>
+<p>The model created with <code class="docutils literal notranslate"><span class="pre">Sequential</span></code> is simply:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
     <span class="n">Lambda</span><span class="p">(</span><span class="n">preprocess</span><span class="p">),</span>
     <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
@@ -934,16 +922,14 @@ will create a layer that we can then use when defining a network with
     <span class="n">Lambda</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
 <span class="p">)</span>
 
-
 <span class="n">opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
-
 
 <span class="n">fit</span><span class="p">(</span><span class="n">epochs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="wrapping-dataloader">
-<h3>Wrapping <cite>DataLoader</cite><a class="headerlink" href="#wrapping-dataloader" title="Permalink to this headline">¶</a></h3>
+<h2>Wrapping DataLoader<a class="headerlink" href="#wrapping-dataloader" title="Permalink to this headline">¶</a></h2>
 <p>Our CNN is fairly concise, but it only works with MNIST, because:
 - It assumes the input is a 28*28 long vector
 - It assumes that the final CNN grid size is 4*4 (since that’s the average
@@ -953,7 +939,6 @@ single channel image. First, we can remove the initial Lambda layer but
 moving the data preprocessing into a generator:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">y</span>
-
 
 <span class="k">class</span> <span class="nc">WrappedDataLoader</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dl</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
@@ -968,17 +953,14 @@ moving the data preprocessing into a generator:</p>
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
             <span class="k">yield</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">b</span><span class="p">))</span>
 
-
 <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span><span class="p">,</span> <span class="n">bs</span><span class="p">)</span>
 <span class="n">train_dl</span> <span class="o">=</span> <span class="n">WrappedDataLoader</span><span class="p">(</span><span class="n">train_dl</span><span class="p">,</span> <span class="n">preprocess</span><span class="p">)</span>
 <span class="n">valid_dl</span> <span class="o">=</span> <span class="n">WrappedDataLoader</span><span class="p">(</span><span class="n">valid_dl</span><span class="p">,</span> <span class="n">preprocess</span><span class="p">)</span>
 
-
-<span class="c1"># Next, we can replace `nn.AvgPool2d` with `nn.AdaptiveAvgPool2d`, which</span>
+<span class="c1"># Next, we can replace ``nn.AvgPool2d`` with ``nn.AdaptiveAvgPool2d``, which</span>
 <span class="c1"># allows us to define the size of the *output* tensor we want, rather than</span>
 <span class="c1"># the *input* tensor we have. As a result, our model will work with any</span>
 <span class="c1"># size input.</span>
-
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
     <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
@@ -999,7 +981,6 @@ moving the data preprocessing into a generator:</p>
 </pre></div>
 </div>
 </div>
-</div>
 <div class="section" id="using-your-gpu">
 <h2>Using your GPU<a class="headerlink" href="#using-your-gpu" title="Permalink to this headline">¶</a></h2>
 <p>If you’re lucky enough to have access to a CUDA-capable GPU (you can
@@ -1014,10 +995,9 @@ Pytorch:</p>
     <span class="s2">&quot;cuda&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Let’s update <cite>preprocess</cite> to move batches to the GPU:</p>
+<p>Let’s update <code class="docutils literal notranslate"><span class="pre">preprocess</span></code> to move batches to the GPU:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dev</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
-
 
 <span class="n">train_dl</span><span class="p">,</span> <span class="n">valid_dl</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">train_ds</span><span class="p">,</span> <span class="n">valid_ds</span><span class="p">,</span> <span class="n">bs</span><span class="p">)</span>
 <span class="n">train_dl</span> <span class="o">=</span> <span class="n">WrappedDataLoader</span><span class="p">(</span><span class="n">train_dl</span><span class="p">,</span> <span class="n">preprocess</span><span class="p">)</span>
@@ -1036,7 +1016,7 @@ Pytorch:</p>
 </div>
 <div class="section" id="closing-thoughts">
 <h2>Closing thoughts<a class="headerlink" href="#closing-thoughts" title="Permalink to this headline">¶</a></h2>
-<p>We now have general data pipeline and training loop which you can use for
+<p>We now have a general data pipeline and training loop which you can use for
 training many types of models using Pytorch. To see how simple training a model
 can now be, take a look at the <cite>mnist_sample</cite> sample notebook.</p>
 <p>Of course, there are many things you’ll want to add, such as data augmentation,
@@ -1045,7 +1025,7 @@ These features are available in the fastai library, which has been developed
 using the same design approach shown in this tutorial, providing a natural
 next step for practitioners looking to take their models further.</p>
 <p>We promised at the start of this tutorial we’d explain through example each of
-<cite>torch.nn</cite>, <cite>torch.optim</cite>, <cite>Dataset</cite>, and <cite>DataLoader</cite>. So let’s summarize
+<code class="docutils literal notranslate"><span class="pre">torch.nn</span></code>, <code class="docutils literal notranslate"><span class="pre">torch.optim</span></code>, <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, and <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>. So let’s summarize
 what we’ve seen:</p>
 <p><strong>torch.nn</strong></p>
 <blockquote>
@@ -1104,22 +1084,20 @@ including classes provided with Pytorch such as <code class="docutils literal no
               <ul>
 <li><a class="reference internal" href="#">What is <cite>torch.nn</cite> <em>really</em>?</a><ul>
 <li><a class="reference internal" href="#mnist-data-setup">MNIST data setup</a></li>
-<li><a class="reference internal" href="#neural-net-from-scratch-no-torch-nn">Neural net from scratch (no <cite>torch.nn</cite>)</a></li>
-<li><a class="reference internal" href="#using-torch-nn-functional">Using <cite>torch.nn.functional</cite></a><ul>
+<li><a class="reference internal" href="#neural-net-from-scratch-no-torch-nn">Neural net from scratch (no torch.nn)</a></li>
+<li><a class="reference internal" href="#using-torch-nn-functional">Using torch.nn.functional</a></li>
 <li><a class="reference internal" href="#refactor-using-nn-module">Refactor using nn.Module</a></li>
-<li><a class="reference internal" href="#refactor-using-nn-linear">Refactor using nn.Linear</a></li>
+<li><a class="reference internal" href="#refactor-using-nn-linear">Refactor using nn.Linear</a><ul>
 <li><a class="reference internal" href="#refactor-using-optim">Refactor using optim</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#refactor-using-dataset">Refactor using Dataset</a></li>
 <li><a class="reference internal" href="#refactor-using-dataloader">Refactor using DataLoader</a></li>
 <li><a class="reference internal" href="#add-validation">Add validation</a></li>
 <li><a class="reference internal" href="#create-fit-and-get-data">Create fit() and get_data()</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#switch-to-cnn">Switch to CNN</a><ul>
+<li><a class="reference internal" href="#switch-to-cnn">Switch to CNN</a></li>
 <li><a class="reference internal" href="#nn-sequential">nn.Sequential</a></li>
-<li><a class="reference internal" href="#wrapping-dataloader">Wrapping <cite>DataLoader</cite></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#wrapping-dataloader">Wrapping DataLoader</a></li>
 <li><a class="reference internal" href="#using-your-gpu">Using your GPU</a></li>
 <li><a class="reference internal" href="#closing-thoughts">Closing thoughts</a></li>
 </ul>
@@ -1131,7 +1109,7 @@ including classes provided with Pytorch such as <code class="docutils literal no
         </div>
       </section>
     </div>
-  </div>
+
   
 
 
@@ -1336,20 +1314,19 @@ including classes provided with Pytorch such as <code class="docutils literal no
   <script type="text/javascript" src="../_static/js/vendor/anchor.min.js"></script>
 
   <script type="text/javascript">
-    mobileMenu.bind();
-    mobileTOC.bind();
-    pytorchAnchors.bind();
-
-    $(window).on("load", function() {
+    $(document).ready(function() {
+      mobileMenu.bind();
+      mobileTOC.bind();
+      pytorchAnchors.bind();
       sideMenus.bind();
       scrollToAnchor.bind();
       highlightNavigation.bind();
-    })
 
-    // Add class to links that have code blocks, since we cannot create links in code blocks
-    $("article.pytorch-article a span.pre").each(function(e) {
-      $(this).closest("a").addClass("has-code");
-    });
+      // Add class to links that have code blocks, since we cannot create links in code blocks
+      $("article.pytorch-article a span.pre").each(function(e) {
+        $(this).closest("a").addClass("has-code");
+      });
+    })
   </script>
 </body>
 </html>
